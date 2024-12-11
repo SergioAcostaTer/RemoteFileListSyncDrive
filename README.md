@@ -42,7 +42,7 @@ FileSync is a Java-based application designed to back up and synchronize local f
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/YourUsername/FileSync.git
+   git clone https://github.com/SergioAcostaTer/RemoteFileListSyncDrive.git
    cd FileSync
    ```
 
