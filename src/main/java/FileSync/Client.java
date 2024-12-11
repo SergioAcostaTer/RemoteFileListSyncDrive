@@ -1,7 +1,6 @@
 package FileSync;
 
 import com.google.api.services.drive.Drive;
-
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Objects;
@@ -10,7 +9,7 @@ import java.util.Set;
 public class Client {
     private static final String DEFAULT_CLIENT_ID = "defaultClient";
     private static final String DEFAULT_DIRECTORY_PATH = "./src/main/java/FileSync";
-    private static final String DRIVE_FOLDER_NAME = "FileSync_Backuppp";
+    private static final String DRIVE_FOLDER_NAME = "FileSync_Backup";
 
     public void sync(String clientId, String directoryPath) throws IOException {
         try {
@@ -21,6 +20,12 @@ public class Client {
 
             Set<FileInfo> localFiles = collectFiles(directoryPath);
             backupManager.uploadFiles(folderId, localFiles);
+
+            // Calculate total data size
+            long totalDataSize = localFiles.stream().mapToLong(FileInfo::getLastModified).sum();
+
+            // Log backup to Google Calendar
+            CalendarHelper.logBackupEvent(localFiles.size(), totalDataSize);
 
             System.out.println("Backup completed successfully for client: " + clientId);
         } catch (Exception e) {

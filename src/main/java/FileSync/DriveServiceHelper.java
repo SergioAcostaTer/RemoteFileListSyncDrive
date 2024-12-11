@@ -9,18 +9,24 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.services.drive.Drive;
+import com.google.api.services.calendar.Calendar;
 import com.google.api.services.drive.DriveScopes;
+import com.google.api.services.calendar.CalendarScopes;
 
 import java.io.*;
 import java.security.GeneralSecurityException;
-import java.util.Collections;
+import java.util.Arrays;
+import java.util.List;
 
 public class DriveServiceHelper {
     private static final String APPLICATION_NAME = "FileSync";
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
 
-    private static Credential getCredentials() throws IOException, GeneralSecurityException {
+    // Include both Drive and Calendar API scopes
+    private static final List<String> SCOPES = Arrays.asList(DriveScopes.DRIVE_FILE, CalendarScopes.CALENDAR);
+
+    public static Credential getCredentials() throws IOException, GeneralSecurityException {
         InputStream in = DriveServiceHelper.class.getResourceAsStream("/credentials.json");
         if (in == null) {
             throw new FileNotFoundException("Resource not found: credentials.json");
@@ -31,7 +37,7 @@ public class DriveServiceHelper {
                 GoogleNetHttpTransport.newTrustedTransport(),
                 JSON_FACTORY,
                 clientSecrets,
-                Collections.singletonList(DriveScopes.DRIVE_FILE))
+                SCOPES)
                 .setAccessType("offline")
                 .build();
 
@@ -40,6 +46,15 @@ public class DriveServiceHelper {
 
     public static Drive getDriveService() throws GeneralSecurityException, IOException {
         return new Drive.Builder(
+                GoogleNetHttpTransport.newTrustedTransport(),
+                JSON_FACTORY,
+                getCredentials())
+                .setApplicationName(APPLICATION_NAME)
+                .build();
+    }
+
+    public static Calendar getCalendarService() throws GeneralSecurityException, IOException {
+        return new Calendar.Builder(
                 GoogleNetHttpTransport.newTrustedTransport(),
                 JSON_FACTORY,
                 getCredentials())
