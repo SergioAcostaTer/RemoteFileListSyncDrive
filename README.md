@@ -6,9 +6,9 @@ FileSync is a Java-based application designed to back up and synchronize local f
 
 ## Example of Usage
 
+![Screenshot 2024-12-11 145747](https://github.com/user-attachments/assets/b2ae0425-f027-4608-92f6-f2ea616a2656)
 ![Screenshot 2024-12-11 145756](https://github.com/user-attachments/assets/2aad2a87-b407-41e5-b13b-f652f172215c)
 ![Screenshot 2024-12-11 145808](https://github.com/user-attachments/assets/e9da40ac-176d-4956-a2cb-25f281e4686e)
-![Screenshot 2024-12-11 145747](https://github.com/user-attachments/assets/b2ae0425-f027-4608-92f6-f2ea616a2656)
 
 
 ## **Features**
